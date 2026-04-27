@@ -11,6 +11,7 @@ Personal portfolio site built with React and Vite. The app is a static single-pa
 - `CSS`: custom styling, layout, responsive behavior, and interaction states.
 - `npm`: dependency management and script runner.
 - `GitHub Actions`: optional automated deployment to GitHub Pages.
+- `Vercel`: Deployed using Vercel. 
 
 ## Project Structure
 
@@ -68,35 +69,5 @@ Preview the production build locally:
 npm run preview
 ```
 
-## Deployment
 
-### Recommended: Vercel
 
-This is the easiest option for a Vite static site.
-
-1. Push the project to GitHub.
-2. Import the repository into Vercel.
-3. Let Vercel detect the framework automatically.
-4. Deploy with:
-
-```txt
-Build command: npm run build
-Output directory: dist
-```
-
-### Alternative: GitHub Pages
-
-This repository already includes a GitHub Actions workflow for Pages deployment.
-
-1. Push the project to GitHub.
-2. Make sure the production branch is `main`, or update the workflow.
-3. In GitHub, open `Settings -> Pages`.
-4. Set the source to `GitHub Actions`.
-5. Push to `main` to trigger deployment.
-
-## Before Publishing
-
-- Add your real GitHub profile URL in [`src/siteContent.js`](./src/siteContent.js).
-- Add your real LinkedIn profile URL in [`src/siteContent.js`](./src/siteContent.js).
-- Review project descriptions and external links.
-- Add a custom domain later if needed.
