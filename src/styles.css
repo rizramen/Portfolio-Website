@@ -77,6 +77,13 @@ ul {
   backdrop-filter: blur(18px);
 }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 18px;
+}
+
 .brand {
   display: grid;
   width: 44px;
@@ -99,6 +106,41 @@ nav {
 
 nav a:hover {
   color: var(--ink);
+}
+
+.language-switcher {
+  display: inline-flex;
+  padding: 4px;
+  border: 1px solid rgba(21, 22, 24, 0.12);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.75);
+}
+
+.language-button {
+  min-width: 50px;
+  min-height: 38px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 900;
+  cursor: pointer;
+  transition:
+    background 180ms ease,
+    color 180ms ease,
+    transform 180ms ease;
+}
+
+.language-button:hover {
+  color: var(--ink);
+}
+
+.language-button.is-active {
+  color: var(--white);
+  background: var(--ink);
 }
 
 .hero {
@@ -550,6 +592,11 @@ time {
     align-items: stretch;
   }
 
+  .header-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
   .brand {
     display: none;
   }
@@ -560,6 +607,10 @@ time {
     width: 100%;
     gap: 10px;
     justify-content: stretch;
+  }
+
+  .language-switcher {
+    align-self: center;
   }
 
   nav a {

@@ -1,8 +1,8 @@
 # Portfolio Website
 
-Personal portfolio site built with React and Vite. The app is a static single-page website that highlights projects, skills, background, and contact information.
+Personal portfolio website built with React and Vite. It is a single-page site for presenting projects, skills, experience, and contact details.
 
-## Tools Used
+## Stack
 
 - `React 19`: component-based UI rendering.
 - `React DOM`: mounts the React app into the page.
@@ -13,37 +13,37 @@ Personal portfolio site built with React and Vite. The app is a static single-pa
 - `GitHub Actions`: optional automated deployment to GitHub Pages.
 - `Vercel`: Deployed using Vercel. 
 
+## Features
+
+- Single-page portfolio layout with anchored navigation
+- Editable project, skills, and timeline data from one content file
+- Responsive custom UI
+- Accessibility basics including semantic sections, focus states, and a skip link
+- Static build output suitable for GitHub Pages or Vercel
+
 ## Project Structure
 
-- [`index.html`](./index.html): base HTML document and SEO/social metadata.
-- [`src/main.jsx`](./src/main.jsx): React entry point.
-- [`src/App.jsx`](./src/App.jsx): top-level layout and page sections.
-- [`src/siteContent.js`](./src/siteContent.js): editable content for projects, skills, timeline, and contact details.
-- [`src/styles.css`](./src/styles.css): design system, layout, responsive rules, and accessibility styles.
-- [`vite.config.js`](./vite.config.js): Vite configuration, including GitHub Pages base-path support.
-- [`.github/workflows/deploy-pages.yml`](./.github/workflows/deploy-pages.yml): GitHub Pages deployment workflow.
+```text
+.
+├── index.html
+├── package.json
+├── vite.config.js
+├── src
+│   ├── App.jsx
+│   ├── main.jsx
+│   ├── siteContent.js
+│   └── styles.css
+└── .github/workflows/deploy-pages.yml
+```
 
-## Site Parts
+## Key Files
 
-- `Header`: sticky top navigation with anchor links for fast section access.
-- `Hero`: landing section with your name, positioning statement, and primary calls to action.
-- `Workspace Visual`: decorative code-window mockup that supports the portfolio identity.
-- `About`: short personal summary and internship goal.
-- `Projects`: project cards with descriptions, stack tags, and live links when available.
-- `Skills`: quick scan of technical strengths and tools.
-- `Experience`: lightweight timeline of development progress.
-- `Contact`: email call-to-action plus optional social profile links.
+- `src/App.jsx`: page layout and section components
+- `src/siteContent.js`: personal info, social links, project data, skills, and timeline
+- `src/styles.css`: full visual styling and responsive rules
+- `vite.config.js`: Vite setup with configurable `VITE_BASE_PATH`
 
-## Best-Practice Notes
-
-- Content is separated from UI logic so text and links can be updated in one place.
-- The app uses semantic sections and labeled navigation for better accessibility.
-- Keyboard users get visible focus states and a skip link.
-- Reduced-motion users are respected through a motion fallback.
-- Broken placeholder social links are not rendered until real URLs are added.
-- The project builds as a static site with no backend dependency.
-
-## Local Development
+## Getting Started
 
 Install dependencies:
 
@@ -57,7 +57,7 @@ Start the development server:
 npm run dev
 ```
 
-Build for production:
+Create a production build:
 
 ```bash
 npm run build
@@ -69,5 +69,41 @@ Preview the production build locally:
 npm run preview
 ```
 
+## Customizing Content
 
+Update [`src/siteContent.js`](./src/siteContent.js) to change:
 
+- name, role, email, and intro text
+- GitHub and LinkedIn links
+- project cards
+- skills list
+- timeline entries
+
+Most portfolio content lives there, so you usually do not need to touch the React components unless you want to change the layout.
+
+## Deployment
+
+### GitHub Pages
+
+This repo already includes [`.github/workflows/deploy-pages.yml`](./.github/workflows/deploy-pages.yml).
+
+1. Push the repository to GitHub.
+2. In GitHub, open `Settings > Pages`.
+3. Set the source to `GitHub Actions`.
+4. Push to `main` to trigger deployment.
+
+If the site is hosted from a repository subpath, set `VITE_BASE_PATH` to that path during build.
+
+### Vercel
+
+Use the default Vite settings:
+
+- Build command: `npm run build`
+- Output directory: `dist`
+
+## Scripts
+
+- `npm run dev`: start local development server
+- `npm run start`: alias for `vite`
+- `npm run build`: create production build
+- `npm run preview`: preview built site locally

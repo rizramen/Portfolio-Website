@@ -1,58 +1,98 @@
-import { PROJECTS, SITE, SKILLS, TIMELINE } from './siteContent';
+import { useEffect, useState } from 'react';
+import { CONTENT, DEFAULT_LANGUAGE, LANGUAGES, SITE } from './siteContent';
+
+const LANGUAGE_STORAGE_KEY = 'portfolio-language';
+
+function getInitialLanguage() {
+  if (typeof window === 'undefined') {
+    return DEFAULT_LANGUAGE;
+  }
+
+  const savedLanguage = window.localStorage.getItem(LANGUAGE_STORAGE_KEY);
+  if (savedLanguage && CONTENT[savedLanguage]) {
+    return savedLanguage;
+  }
+
+  const browserLanguage = window.navigator.language.slice(0, 2).toLowerCase();
+  return CONTENT[browserLanguage] ? browserLanguage : DEFAULT_LANGUAGE;
+}
 
 function App() {
+  const [language, setLanguage] = useState(getInitialLanguage);
+  const content = CONTENT[language];
+
+  useEffect(() => {
+    window.localStorage.setItem(LANGUAGE_STORAGE_KEY, language);
+    document.documentElement.lang = language;
+  }, [language]);
+
   return (
     <>
       <a className="skip-link" href="#main-content">
-        Skip to content
+        {content.meta.skipToContent}
       </a>
-      <Header />
+      <Header content={content} language={language} onLanguageChange={setLanguage} />
       <main id="main-content">
-        <Hero />
-        <About />
-        <Projects />
-        <Skills />
-        <Experience />
-        <Contact />
+        <Hero content={content} />
+        <About content={content} />
+        <Projects content={content} />
+        <Skills content={content} />
+        <Experience content={content} />
+        <Contact content={content} />
       </main>
     </>
   );
 }
 
-function Header() {
+function Header({ content, language, onLanguageChange }) {
   return (
     <header className="site-header">
-      <a className="brand" href="#top" aria-label={`${SITE.name} home`}>
+      <a className="brand" href="#top" aria-label={content.meta.homeAriaLabel}>
         FR
       </a>
-      <nav aria-label="Primary navigation">
-        <a href="#work">Projects</a>
-        <a href="#skills">Skills</a>
-        <a href="#experience">Experience</a>
-        <a href="#contact">Contact</a>
-      </nav>
+      <div className="header-actions">
+        <nav aria-label={content.meta.primaryNavAriaLabel}>
+          <a href="#work">{content.navigation.projects}</a>
+          <a href="#skills">{content.navigation.skills}</a>
+          <a href="#experience">{content.navigation.experience}</a>
+          <a href="#contact">{content.navigation.contact}</a>
+        </nav>
+        <div className="language-switcher" role="group" aria-label={content.meta.languageSwitcherLabel}>
+          {LANGUAGES.map((option) => (
+            <button
+              key={option.code}
+              type="button"
+              className={option.code === language ? 'language-button is-active' : 'language-button'}
+              onClick={() => onLanguageChange(option.code)}
+              aria-pressed={option.code === language}
+            >
+              {option.label}
+            </button>
+          ))}
+        </div>
+      </div>
     </header>
   );
 }
 
-function Hero() {
+function Hero({ content }) {
   return (
     <section className="hero" id="top" aria-labelledby="hero-title">
       <div className="hero-copy">
-        <p className="eyebrow">{SITE.role}</p>
+        <p className="eyebrow">{content.hero.role}</p>
         <h1 id="hero-title">{SITE.name}</h1>
-        <p className="hero-text">{SITE.intro}</p>
-        <div className="hero-actions" aria-label="Portfolio actions">
+        <p className="hero-text">{content.hero.intro}</p>
+        <div className="hero-actions" aria-label={content.meta.portfolioActionsAriaLabel}>
           <a className="button primary" href="#work">
-            View work
+            {content.hero.primaryCta}
           </a>
           <a className="button secondary" href={`mailto:${SITE.email}`}>
-            Email me
+            {content.hero.secondaryCta}
           </a>
         </div>
       </div>
 
-      <div className="workspace-visual" aria-label="Portfolio coding workspace preview">
+      <div className="workspace-visual" aria-label={content.meta.workspacePreviewAriaLabel}>
         <div className="window-bar" aria-hidden="true">
           <span />
           <span />
@@ -66,14 +106,10 @@ function Hero() {
             <span>src/siteContent.js</span>
           </aside>
           <div className="code-panel">
-            <pre>{`const developer = {
-  name: 'Fariz',
-  focus: ['React', 'Java', 'UI', 'JS'],
-  ships: 'clean, usable software'
-};`}</pre>
-            <div className="terminal" aria-label="Build status">
+            <pre>{content.hero.codeSnippet}</pre>
+            <div className="terminal" aria-label={content.meta.buildStatusAriaLabel}>
               <span>$ npm run build</span>
-              <strong>portfolio ready</strong>
+              <strong>{content.hero.terminalStatus}</strong>
             </div>
           </div>
         </div>
@@ -82,27 +118,27 @@ function Hero() {
   );
 }
 
-function About() {
+function About({ content }) {
   return (
     <section className="section about" aria-labelledby="about-title">
       <div>
-        <p className="section-label">About</p>
-        <h2 id="about-title">Code that feels direct, useful, and well-shaped.</h2>
+        <p className="section-label">{content.about.label}</p>
+        <h2 id="about-title">{content.about.title}</h2>
       </div>
-      <p>{SITE.about}</p>
+      <p>{content.about.body}</p>
     </section>
   );
 }
 
-function Projects() {
+function Projects({ content }) {
   return (
     <section className="section work" id="work" aria-labelledby="projects-title">
       <div className="section-heading">
-        <p className="section-label">Selected Work</p>
-        <h2 id="projects-title">Personal Projects</h2>
+        <p className="section-label">{content.projects.label}</p>
+        <h2 id="projects-title">{content.projects.title}</h2>
       </div>
       <div className="project-grid">
-        {PROJECTS.map((project) => (
+        {content.projects.items.map((project) => (
           <article className="project-card" key={project.title}>
             <div className="project-topline">
               <span>{project.type}</span>
@@ -110,7 +146,7 @@ function Projects() {
             </div>
             <h3>{project.title}</h3>
             <p>{project.description}</p>
-            <ul className="tags" aria-label={`${project.title} technology stack`}>
+            <ul className="tags" aria-label={`${project.title} ${content.projects.stackAriaLabel}`}>
               {project.stack.map((item) => (
                 <li key={item}>{item}</li>
               ))}
@@ -121,12 +157,12 @@ function Projects() {
                 href={project.link}
                 target="_blank"
                 rel="noreferrer"
-                aria-label={`View ${project.title} project`}
+                aria-label={`${content.projects.viewProject} ${project.title}`}
               >
-                View project
+                {content.projects.viewProject}
               </a>
             ) : (
-              <span className="project-link placeholder">Project link coming soon</span>
+              <span className="project-link placeholder">{content.projects.projectLinkComingSoon}</span>
             )}
           </article>
         ))}
@@ -135,15 +171,15 @@ function Projects() {
   );
 }
 
-function Skills() {
+function Skills({ content }) {
   return (
     <section className="section skills" id="skills" aria-labelledby="skills-title">
       <div className="section-heading">
-        <p className="section-label">Stack</p>
-        <h2 id="skills-title">Tools and strengths I bring into projects.</h2>
+        <p className="section-label">{content.skills.label}</p>
+        <h2 id="skills-title">{content.skills.title}</h2>
       </div>
-      <ul className="skill-grid" aria-label="Technical skills">
-        {SKILLS.map((skill) => (
+      <ul className="skill-grid" aria-label={content.meta.technicalSkillsAriaLabel}>
+        {content.skills.items.map((skill) => (
           <li key={skill}>{skill}</li>
         ))}
       </ul>
@@ -151,17 +187,17 @@ function Skills() {
   );
 }
 
-function Experience() {
+function Experience({ content }) {
   return (
     <section className="section experience" id="experience" aria-labelledby="experience-title">
       <div className="section-heading">
-        <p className="section-label">Experience</p>
-        <h2 id="experience-title">Learning by building and refining real projects.</h2>
+        <p className="section-label">{content.experience.label}</p>
+        <h2 id="experience-title">{content.experience.title}</h2>
       </div>
       <div className="timeline">
-        {TIMELINE.map((item) => (
-          <article key={item.year}>
-            <time dateTime={item.year === 'Now' ? undefined : item.year}>{item.year}</time>
+        {content.experience.items.map((item) => (
+          <article key={`${item.year}-${item.title}`}>
+            <time dateTime={/^\d{4}$/.test(item.year) ? item.year : undefined}>{item.year}</time>
             <div>
               <h3>{item.title}</h3>
               <p>{item.text}</p>
@@ -173,16 +209,14 @@ function Experience() {
   );
 }
 
-function Contact() {
+function Contact({ content }) {
   const activeSocialLinks = SITE.socialLinks.filter((link) => Boolean(link.href));
 
   return (
     <section className="contact" id="contact" aria-labelledby="contact-title">
       <div>
-        <p className="section-label">Contact</p>
-        <h2 id="contact-title">
-          Think I&apos;m cut out for an internship at your company? Shoot me a message.
-        </h2>
+        <p className="section-label">{content.contact.label}</p>
+        <h2 id="contact-title">{content.contact.title}</h2>
       </div>
       <div className="contact-actions">
         <a className="button primary" href={`mailto:${SITE.email}`}>
@@ -196,15 +230,13 @@ function Contact() {
               href={link.href}
               target="_blank"
               rel="noreferrer"
-              aria-label={`Visit ${SITE.name} on ${link.label}`}
+              aria-label={`${content.contact.socialAriaLabelPrefix} ${link.label}`}
             >
               {link.label}
             </a>
           ))
         ) : (
-          <p className="contact-note">
-            Add your GitHub and LinkedIn profile URLs in `src/siteContent.js` before publishing.
-          </p>
+          <p className="contact-note">{content.contact.missingLinksNote}</p>
         )}
       </div>
     </section>
