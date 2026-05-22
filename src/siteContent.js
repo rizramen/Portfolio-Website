@@ -101,7 +101,7 @@ export const CONTENT = {
     },
     education: {
       label: 'Education',
-      title: 'Academic background and training',
+      title: 'Academic background',
       items: [
         {
           year: '2024 - now',

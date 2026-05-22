@@ -617,11 +617,16 @@ time {
 @media (max-width: 680px) {
   .site-header {
     position: static;
+    flex-direction: column;
     align-items: stretch;
+    justify-content: center;
   }
 
   .header-actions {
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: minmax(0, 9.5fr) minmax(84px, 0.5fr);
+    width: 100%;
+    gap: 10px;
     align-items: stretch;
   }
 
@@ -632,13 +637,20 @@ time {
   nav {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    width: 100%;
+    grid-column: 1;
+    grid-row: 1 / span 2;
     gap: 10px;
-    justify-content: stretch;
   }
 
   .language-switcher {
-    align-self: center;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    width: 100%;
+    padding: 0;
+    border-radius: 8px;
   }
 
   nav a {
@@ -650,6 +662,23 @@ time {
     border: 1px solid rgba(21, 22, 24, 0.12);
     border-radius: 8px;
     background: rgba(255, 255, 255, 0.65);
+  }
+
+  .language-button {
+    width: 100%;
+    min-width: 0;
+    border-radius: 0;
+  }
+
+  .language-button:first-child {
+    border-bottom: 1px solid rgba(21, 22, 24, 0.12);
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+  }
+
+  .language-button:last-child {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
   }
 
   .hero {
