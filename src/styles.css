@@ -145,9 +145,9 @@ nav a:hover {
 
 .hero {
   display: grid;
-  grid-template-columns: minmax(0, 0.9fr) minmax(340px, 1.1fr);
+  grid-template-columns: minmax(0, 0.82fr) minmax(360px, 1fr);
   align-items: center;
-  gap: clamp(32px, 6vw, 80px);
+  gap: clamp(44px, 8vw, 112px);
   min-height: calc(100vh - 72px);
   padding: clamp(40px, 7vw, 90px) clamp(20px, 5vw, 72px) 60px;
   overflow: hidden;
@@ -242,11 +242,11 @@ h3 {
 .workspace-visual {
   width: min(100%, 720px);
   margin-left: auto;
+  transform: translateX(clamp(8px, 2vw, 24px)) rotate(1deg);
   border: 2px solid var(--ink);
   border-radius: 8px;
   background: var(--charcoal);
   box-shadow: var(--shadow);
-  transform: rotate(1deg);
 }
 
 .window-bar {
@@ -360,7 +360,7 @@ pre {
 
 .project-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 16px;
 }
 
@@ -385,10 +385,6 @@ pre {
 
 .project-card:nth-child(3) {
   background: #f5efdc;
-}
-
-.project-card:nth-child(4) {
-  background: #eaf0ff;
 }
 
 .project-topline {
@@ -498,6 +494,10 @@ pre {
   background: var(--white);
 }
 
+.education-title {
+  white-space: nowrap;
+}
+
 .timeline {
   display: grid;
   gap: 0;
@@ -517,10 +517,37 @@ time {
   font-weight: 900;
 }
 
-.timeline p {
-  max-width: 760px;
-  color: var(--muted);
-  line-height: 1.65;
+.timeline-content {
+  min-width: 0;
+}
+
+.timeline-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.timeline-description {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 0 12px;
+  border: 1px solid rgba(21, 22, 24, 0.18);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.62);
+  color: var(--ink);
+  font-size: 0.86rem;
+  font-weight: 800;
+  text-align: right;
+}
+
+.timeline-place {
+  margin: 8px 0 0;
+  color: var(--ink);
+  font-size: 0.95rem;
+  font-weight: 800;
 }
 
 .contact {
@@ -579,6 +606,7 @@ time {
 
   .workspace-visual {
     margin-left: 0;
+    transform: rotate(1deg);
   }
 
   .project-grid {
@@ -648,6 +676,11 @@ time {
   .project-grid,
   .timeline article {
     grid-template-columns: 1fr;
+  }
+
+  .timeline-header {
+    flex-direction: column;
+    align-items: flex-start;
   }
 
   .project-card {

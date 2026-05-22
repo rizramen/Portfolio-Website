@@ -37,7 +37,7 @@ function App() {
         <About content={content} />
         <Projects content={content} />
         <Skills content={content} />
-        <Experience content={content} />
+        <Education content={content} />
         <Contact content={content} />
       </main>
     </>
@@ -54,7 +54,7 @@ function Header({ content, language, onLanguageChange }) {
         <nav aria-label={content.meta.primaryNavAriaLabel}>
           <a href="#work">{content.navigation.projects}</a>
           <a href="#skills">{content.navigation.skills}</a>
-          <a href="#experience">{content.navigation.experience}</a>
+          <a href="#education">{content.navigation.education}</a>
           <a href="#contact">{content.navigation.contact}</a>
         </nav>
         <div className="language-switcher" role="group" aria-label={content.meta.languageSwitcherLabel}>
@@ -187,20 +187,25 @@ function Skills({ content }) {
   );
 }
 
-function Experience({ content }) {
+function Education({ content }) {
   return (
-    <section className="section experience" id="experience" aria-labelledby="experience-title">
+    <section className="section experience" id="education" aria-labelledby="education-title">
       <div className="section-heading">
-        <p className="section-label">{content.experience.label}</p>
-        <h2 id="experience-title">{content.experience.title}</h2>
+        <p className="section-label">{content.education.label}</p>
+        <h2 className="education-title" id="education-title">
+          {content.education.title}
+        </h2>
       </div>
       <div className="timeline">
-        {content.experience.items.map((item) => (
+        {content.education.items.map((item) => (
           <article key={`${item.year}-${item.title}`}>
-            <time dateTime={/^\d{4}$/.test(item.year) ? item.year : undefined}>{item.year}</time>
-            <div>
-              <h3>{item.title}</h3>
-              <p>{item.text}</p>
+            <time>{item.year}</time>
+            <div className="timeline-content">
+              <div className="timeline-header">
+                <h3>{item.title}</h3>
+                {item.text ? <span className="timeline-description">{item.text}</span> : null}
+              </div>
+              {item.place ? <p className="timeline-place">{item.place}</p> : null}
             </div>
           </article>
         ))}
